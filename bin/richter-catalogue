@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require './lib/richter_catalogue'
+
+RichterCatalogue::CLI.new.call
