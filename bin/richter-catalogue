@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
-require './lib/richter_catalogue'
+require "bundler/setup"
+require "richter_catalogue"
 
 RichterCatalogue::CLI.new.call
