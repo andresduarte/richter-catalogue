@@ -56,6 +56,8 @@ class RichterCatalogue::CLI
         year_paintings
       when "name"
         name_paintings
+      when "exit"
+        search_method("exit")
       else
         puts "Search method is invalid, please try again"
         search_method
