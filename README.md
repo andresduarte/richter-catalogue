@@ -2,23 +2,8 @@
 
 richter_catalogue allows users to the search through an abridged version of Gerhard Richter's Painting Catalogue either by the painting's subject, the year in which it was conceived, or directly by its name.
 
-## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'richter_catalogue'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install richter_catalogue
-
-## Usage
+detailed explanation of functionality 
 
 Decide wether you want to search by subject, year or name.
 
@@ -52,6 +37,28 @@ Name
 at any point salve for the original menu you can type 'back' to go back to the previous query
 
 at any point you can type 'exit' to exit the gem
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'richter_catalogue'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install richter_catalogue
+
+## Usage
+
+following installation run:
+
+    $ richter_catalogue
 
 ## Development
 
