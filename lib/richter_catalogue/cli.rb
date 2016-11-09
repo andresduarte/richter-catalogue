@@ -86,11 +86,13 @@ class RichterCatalogue::CLI
     subject_names = RichterCatalogue::Subject.all.collect {|subject| subject.name}
     if input_subject.to_i.between?(1, subject_names.size + 1)
       subject_paintings_names(subject_names[input_subject.to_i - 1])
-    elsif subject_names.include?(input_subject.split.map(&:capitalize).join(' ')) || subject_names.include?(input_subject) || subject_names.include?(input_subject.capitalize)
+    elsif subject_names.include?(input_subject.split.map(&:capitalize).join(' ')) || subject_names.include?(input_subject) || subject_names.include?(input_subject.capitalize) || subject_names.include?(input_subject.upcase)
       if subject_names.include?(input_subject)
         subject_paintings_names(input_subject)
       elsif subject_names.include?(input_subject.capitalize)
         subject_paintings_names(input_subject.capitalize)
+      elsif subject_names.include?(input_subject.upcase)
+        subject_paintings_names(input_subject.upcase)
       else
         subject_paintings_names(input_subject.split.map(&:capitalize).join(' '))
       end
@@ -116,8 +118,8 @@ class RichterCatalogue::CLI
     if input.to_i.between?(1, painting_names.size)
       RichterCatalogue::Painting.display(subject.paintings[input.to_i - 1])
       self.subject_paintings_names(subject_name) 
-    elsif !subject.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize}.nil?
-      paintings_matched = subject.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize}
+    elsif !subject.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize || painting.name == input.upcase}.nil?
+      paintings_matched = subject.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize || painting.name == input.upcase}
       paintings_matched.each {|painting| RichterCatalogue::Painting.display(painting)}
       self.subject_paintings_names(subject_name)
     elsif input == "all"
@@ -165,8 +167,8 @@ class RichterCatalogue::CLI
     if input.to_i.between?(1, painting_names.size)
       RichterCatalogue::Painting.display(year.paintings[input.to_i - 1])
       self.year_paintings_names(year_name)
-    elsif !year.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input}.nil?
-      paintings_matched = year.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input}
+    elsif !year.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize || painting.name == input.upcase}.nil?
+      paintings_matched = year.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize || painting.name == input.upcase}
       paintings_matched.each {|painting| RichterCatalogue::Painting.display(painting)}
       self.year_paintings_names(year_name)
     elsif input == "all"
@@ -189,9 +191,13 @@ class RichterCatalogue::CLI
     puts "type exit to exit"
     input_name = gets.strip
     painting_names = RichterCatalogue::Painting.all.collect {|painting| painting.name}
-    if painting_names.include?(input_name.split.map(&:capitalize).join(' ')) || painting_names.include?(input_name)
+    if painting_names.include?(input_name.split.map(&:capitalize).join(' ')) || painting_names.include?(input_name) || painting_names.include?(input_name.capitalize) || painting_names.include?(input_name.upcase)
       if painting_names.include?(input_name)
         RichterCatalogue::Painting.find_by_name(input_name).each {|painting| RichterCatalogue::Painting.display(painting)}
+      elsif painting_names.include?(input_name.capitalize)
+        RichterCatalogue::Painting.find_by_name(input_name.capitalize).each {|painting| RichterCatalogue::Painting.display(painting)}
+      elsif painting_names.include?(input_name.upcase)
+        RichterCatalogue::Painting.find_by_name(input_name.upcase).each {|painting| RichterCatalogue::Painting.display(painting)}
       else
         RichterCatalogue::Painting.find_by_name(input_name.split.map(&:capitalize).join(' ')).each {|painting| RichterCatalogue::Painting.display(painting)}
       end
