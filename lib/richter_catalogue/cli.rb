@@ -86,8 +86,14 @@ class RichterCatalogue::CLI
     subject_names = RichterCatalogue::Subject.all.collect {|subject| subject.name}
     if input_subject.to_i.between?(1, subject_names.size + 1)
       subject_paintings_names(subject_names[input_subject.to_i - 1])
-    elsif subject_names.include?(input_subject.split.map(&:capitalize).join(' '))
-      subject_paintings_names(input_subject.split.map(&:capitalize).join(' '))
+    elsif subject_names.include?(input_subject.split.map(&:capitalize).join(' ')) || subject_names.include?(input_subject) || subject_names.include?(input_subject.capitalize)
+      if subject_names.include?(input_subject)
+        subject_paintings_names(input_subject)
+      elsif subject_names.include?(input_subject.capitalize)
+        subject_paintings_names(input_subject.capitalize)
+      else
+        subject_paintings_names(input_subject.split.map(&:capitalize).join(' '))
+      end
     elsif input_subject == "back"
       self.search_method
     elsif input_subject == "exit"
@@ -103,14 +109,15 @@ class RichterCatalogue::CLI
     painting_names = subject.paintings.collect {|painting| painting.name}
     painting_names.each.with_index(1) {|p, i| puts "#{i}. #{p}"}
     puts "Select painting by number or by name"
+    puts "type all to see information on all paintings"
     puts "type back to go back"
     puts "type exit to exit"
     input = gets.strip
-    if input.to_i.between?(1, painting_names.size + 1)
+    if input.to_i.between?(1, painting_names.size)
       RichterCatalogue::Painting.display(subject.paintings[input.to_i - 1])
       self.subject_paintings_names(subject_name) 
-    elsif !subject.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ')}.nil?
-      paintings_matched = subject.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ')}
+    elsif !subject.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize}.nil?
+      paintings_matched = subject.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize}
       paintings_matched.each {|painting| RichterCatalogue::Painting.display(painting)}
       self.subject_paintings_names(subject_name)
     elsif input == "all"
@@ -150,15 +157,16 @@ class RichterCatalogue::CLI
     painting_names = year.paintings.collect {|painting| painting.name}
     painting_names.each.with_index(1) {|p, i| puts "#{i}. #{p}"}
     puts "Select painting by number or by name"
+    puts "type all to see information on all paintings"
     puts "type back to go back"
     puts "type exit to exit"
     input = gets.strip
 
-    if input.to_i.between?(1, painting_names.size + 1)
+    if input.to_i.between?(1, painting_names.size)
       RichterCatalogue::Painting.display(year.paintings[input.to_i - 1])
       self.year_paintings_names(year_name)
-    elsif !year.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ')}.nil?
-      paintings_matched = year.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ')}
+    elsif !year.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input}.nil?
+      paintings_matched = year.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input}
       paintings_matched.each {|painting| RichterCatalogue::Painting.display(painting)}
       self.year_paintings_names(year_name)
     elsif input == "all"
@@ -177,10 +185,16 @@ class RichterCatalogue::CLI
 
   def name_paintings
     puts "type name"
-    input_name = gets.strip.split.map(&:capitalize).join(' ')
+    puts "type back to go back"
+    puts "type exit to exit"
+    input_name = gets.strip
     painting_names = RichterCatalogue::Painting.all.collect {|painting| painting.name}
-    if painting_names.include?(input_name)
-      RichterCatalogue::Painting.find_by_name(input_name).each {|painting| RichterCatalogue::Painting.display(painting)}
+    if painting_names.include?(input_name.split.map(&:capitalize).join(' ')) || painting_names.include?(input_name)
+      if painting_names.include?(input_name)
+        RichterCatalogue::Painting.find_by_name(input_name).each {|painting| RichterCatalogue::Painting.display(painting)}
+      else
+        RichterCatalogue::Painting.find_by_name(input_name.split.map(&:capitalize).join(' ')).each {|painting| RichterCatalogue::Painting.display(painting)}
+      end
       self.name_paintings
     elsif input_name == "back"
       self.search_method
