@@ -1,8 +1,6 @@
 # RichterCatalogue
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/richter_catalogue`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+richter_catalogue allows users to the search through an abridged version of Gerhard Richter's Painting Catalogue either by the painting's subject, the year in which it was conceived, or directly by its name.
 
 ## Installation
 
@@ -22,7 +20,38 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Decide wether you want to search by subject, year or name.
+
+type 'subject' to search catalogue by subject 
+type 'year' to search catalogue by year
+type 'name' to search catalogue by year
+
+Subject 
+  You'll be presented with a numbered list of available subjects.
+  You may select one either by number or by name  * names written in lowercase yield correct results
+  If your selection is invalid you'll be asked to try again
+  Once a correct subject has been selected you'll be presented with a number list of paintings that belong to the selected subject. 
+  If you want information on all the paintings type 'all'
+  If you want information on a specific painting you may select which painting either by number or by name
+  If a painting is selected by name and there are multiple paintings with the same name information will be return on all said paintings
+
+Year 
+  You'll be presented with a list of available years of which you may select one.
+  If your selection is invalid you'll be asked to try again.
+  Once a correct year has been selected you'll be presented with a number list of paintings that belong to the selected year.
+  If you wish to see information on all the paintings type 'all'. 
+  If you want information on a specific painting you may select which painting either by number or by name.
+  If a painting is selected by name and there are multiple paintings with the same name information will be return on all said paintings
+
+Name 
+  You'll be asked to input a painting's name. 
+  If your input is invalid you'll be asked to try again.
+  Once a correct painting's name has be inputed you'll be returned information on that painting
+  If the provided painting name matches multiple paintings you'll be returned information on all said paintings.
+
+at any point salve for the original menu you can type 'back' to go back to the previous query
+
+at any point you can type 'exit' to exit the gem
 
 ## Development
 

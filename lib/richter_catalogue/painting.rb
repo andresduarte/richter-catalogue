@@ -16,7 +16,6 @@ class RichterCatalogue::Painting
       new_painting = RichterCatalogue::Painting.new(attributes_hash)
       new_painting.subject = subject
     end
-
   end
 
   def add_attributes(attributes_hash)
@@ -50,10 +49,12 @@ class RichterCatalogue::Painting
   end
 
   def self.display(painting)
+
     puts "  name: #{painting.name}"
     puts "  year: #{painting.year.name}"
     puts "  size: #{painting.size}"
     puts "  medium: #{painting.medium}"
+
     if !(painting.price == "")
       puts "  price: #{painting.price}"
     end
@@ -65,10 +66,6 @@ class RichterCatalogue::Painting
   end
 
   def self.find_by_name(name)
-    self.all.select{|painting| painting.name == name}
-  end
-
-  def self.find_by_name_first(name)
     self.all.select{|painting| painting.name == name}
   end
 

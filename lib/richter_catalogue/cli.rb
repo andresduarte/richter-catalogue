@@ -44,10 +44,13 @@ class RichterCatalogue::CLI
   def search_method(input = nil)
     if input == "exit"
     else
+
       puts "Welcome to Gerhard Richter's Catalogue"
       puts "Search by subject, by year, or by name?"
       puts "type exit to exit"
+
       input = gets.strip.downcase
+      
       case input 
       when "subject"
         list_subjects
@@ -237,6 +240,5 @@ class RichterCatalogue::CLI
     end
   end
     
-
 end
 

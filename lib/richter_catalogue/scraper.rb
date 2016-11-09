@@ -1,6 +1,7 @@
 class RichterCatalogue::Scraper
 
   def self.artist_page(artist_url)
+
     doc = Nokogiri::HTML(open(artist_url))
 
     name = doc.css("span.fn").text
@@ -9,10 +10,10 @@ class RichterCatalogue::Scraper
     movement = doc.css("tr td.category a").text
     edu_1 = doc.css("div#mw-content-text table tr:nth-of-type(5) td:first-of-type a.mw-redirect").text + ", "
     edu_2 = doc.css("div#mw-content-text table tr:nth-of-type(5) td:first-of-type a.mw-redirect ~ a")
-
     edu_2.each_with_index {|edu, i| i.between?(1, edu_2.size - 1) ? edu_1 << edu.text + ", " : edu_1 << edu.text + "."}
 
     artist = {name: name, age: age, nationality: nationality, movement: movement, education: edu_1, artist_url: artist_url}
+   
     artist
   end
 
@@ -47,9 +48,8 @@ class RichterCatalogue::Scraper
 
     paintings = []
 
-    doc.css("div.div-thumb.div-thumb-with-title a.a-thumb-link").each do |painting|
-      paintings << {painting_url: painting.attribute("href").value }
-    end
+    doc.css("div.div-thumb.div-thumb-with-title a.a-thumb-link").each {|painting| paintings << {painting_url: painting.attribute("href").value }}
+ 
     paintings
   end
 
