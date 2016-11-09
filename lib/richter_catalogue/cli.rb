@@ -27,7 +27,7 @@ class RichterCatalogue::CLI
     end
   end
 
-  def make_enviroment
+  def make_catalogue
     make_artists
     make_subjects
     make_paintings
@@ -35,7 +35,8 @@ class RichterCatalogue::CLI
   end
 
   def call 
-    make_enviroment
+    puts "Retrieving information from the Catalogue..."
+    make_catalogue
     search_method
     goodbye
   end
@@ -81,12 +82,15 @@ class RichterCatalogue::CLI
   end
 
   def subject_paintings
+
     puts "Select subject by number or by name"
     puts "type back to go back"
     puts "type exit to exit"
+
     input_subject = gets.strip
     subject_names = RichterCatalogue::Subject.all.collect {|subject| subject.name}
-    if input_subject.to_i.between?(1, subject_names.size + 1)
+
+    if input_subject.to_i.between?(1, subject_names.size)
       subject_paintings_names(subject_names[input_subject.to_i - 1])
     elsif subject_names.include?(input_subject.split.map(&:capitalize).join(' ')) || subject_names.include?(input_subject) || subject_names.include?(input_subject.capitalize) || subject_names.include?(input_subject.upcase)
       if subject_names.include?(input_subject)
@@ -99,12 +103,12 @@ class RichterCatalogue::CLI
         subject_paintings_names(input_subject.split.map(&:capitalize).join(' '))
       end
     elsif input_subject == "back"
-      self.search_method
+      search_method
     elsif input_subject == "exit"
-      self.search_method("exit")
+      search_method("exit")
     else 
       puts "Subject is invalid, please try again"
-      self.subject_paintings
+      subject_paintings
     end 
   end 
 
@@ -119,22 +123,22 @@ class RichterCatalogue::CLI
     input = gets.strip
     if input.to_i.between?(1, painting_names.size)
       RichterCatalogue::Painting.display(subject.paintings[input.to_i - 1])
-      self.subject_paintings_names(subject_name) 
+      subject_paintings_names(subject_name) 
     elsif !subject.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize || painting.name == input.upcase}.nil?
       paintings_matched = subject.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize || painting.name == input.upcase}
       paintings_matched.each {|painting| RichterCatalogue::Painting.display(painting)}
-      self.subject_paintings_names(subject_name)
+      subject_paintings_names(subject_name)
     elsif input == "all"
       subject.paintings.each {|painting| RichterCatalogue::Painting.display(painting)}
-      self.subject_paintings_names(subject_name)
+      subject_paintings_names(subject_name)
     elsif input == "back"
-      self.list_subjects
-      self.subject_paintings
+      list_subjects
+      subject_paintings
     elsif input == "exit"
       search_method("exit")
     else
       puts "Painting is invalid, please try again"
-      self.subject_paintings_names(subject_name)
+      subject_paintings_names(subject_name)
     end
   end
 
@@ -146,12 +150,12 @@ class RichterCatalogue::CLI
       if !RichterCatalogue::Year.find_by_name(input_year).nil?
         year_paintings_names(input_year)
       elsif input_year == "back"
-        self.search_method
+        search_method
       elsif input_year == "exit"
-        self.search_method("exit")
+        search_method("exit")
       else
         puts "No paintings found for selected year please select another year"
-        self.year_paintings
+        year_paintings
       end
   end
     
@@ -168,19 +172,19 @@ class RichterCatalogue::CLI
 
     if input.to_i.between?(1, painting_names.size)
       RichterCatalogue::Painting.display(year.paintings[input.to_i - 1])
-      self.year_paintings_names(year_name)
+      year_paintings_names(year_name)
     elsif !year.paintings.detect {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize || painting.name == input.upcase}.nil?
       paintings_matched = year.paintings.select {|painting| painting.name == input.split.map(&:capitalize).join(' ') || painting.name == input || painting.name == input.capitalize || painting.name == input.upcase}
       paintings_matched.each {|painting| RichterCatalogue::Painting.display(painting)}
-      self.year_paintings_names(year_name)
+      year_paintings_names(year_name)
     elsif input == "all"
       year.paintings.each {|painting| RichterCatalogue::Painting.display(painting)}
-      self.year_paintings_names(year_name)
+      year_paintings_names(year_name)
     elsif input == "back"
-      self.list_years
-      self.year_paintings
+      list_years
+      year_paintings
     elsif input == "exit"
-      self.search_method("exit")
+      search_method("exit")
     else
       puts "Painting is invalid, please try again"
       year_paintings_names(year_name)
@@ -203,14 +207,14 @@ class RichterCatalogue::CLI
       else
         RichterCatalogue::Painting.find_by_name(input_name.split.map(&:capitalize).join(' ')).each {|painting| RichterCatalogue::Painting.display(painting)}
       end
-      self.name_paintings
+      name_paintings
     elsif input_name == "back"
-      self.search_method
+      search_method
     elsif input_name == "exit"
-      self.search_method("exit")
+      search_method("exit")
     else 
       puts "Painting was not found please try again"
-      self.name_paintings
+      name_paintings
     end
   end
     
