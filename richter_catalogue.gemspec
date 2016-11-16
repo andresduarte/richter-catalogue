@@ -6,6 +6,7 @@ require 'richter_catalogue/version'
 Gem::Specification.new do |spec|
   spec.name          = "richter_catalogue"
   spec.version       = RichterCatalogue::VERSION
+  spec.executables   = 'richter-catalogue'
   spec.authors       = ["andresduarte"]
   spec.email         = ["andresduarte010@gmail.com"]
 
@@ -23,8 +24,8 @@ Gem::Specification.new do |spec|
   end
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  ##spec.bindir        = "exe"
+  ##spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.12"
