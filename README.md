@@ -58,7 +58,7 @@ Or install it yourself as:
 
 following installation run:
 
-    $ richter_catalogue
+    $ richter-catalogue
 
 ## Development
 
